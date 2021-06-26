@@ -1,20 +1,89 @@
 #Get time and display time on nixie tube clock
 
 from datetime import datetime
+import gpiozero
 
-def main:
-    get_time()
-    convert_time_to_binary_coded_decimal()
-    send_binary_coded_decimal_value_to_pins()
+def main():
+    time = get_time()
+    time_in_binary = convert_time_to_BCD(time)
+    send_BCD_to_pins(time_in_binary)
 
 def get_time():
     now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print(current_time)
+    return current_time
 
-current_time = now.strftime("%H:%M:%S")
-print(current_time)
+def convert_time_to_BCD(time):
+    print("Convert time to BCD")
 
-def convert_time_to_binary_coded_decimal():
-    #
+    #split time into hours, minutes and seconds
+    time_list = time.split(":")
+    hour = time_list[0]
+    minute = time_list[1]
+    second = time_list[2]
 
-def send_binary_coded_decimal_value_to_pins():
-    #
+    #split hours into two seperate digits
+    hour_1st_digit = hour[0:1]
+    hour_2nd_digit = hour[1:2]
+
+    #split minutes into two seperate digits
+    minute_1st_digit = minute[0:1]
+    minute_2nd_digit = minute[1:2]
+
+    #split seconds into two seperate digits
+    second_1st_digit = second[0:1]
+    second_2nd_digit = second[1:2]
+
+    #convert into binary
+    binary_of_hour_1st_digit = bin(int(hour_1st_digit))
+    binary_of_hour_2nd_digit = bin(int(hour_2nd_digit))
+
+    binary_of_minute_1st_digit = bin(int(minute_1st_digit))
+    binary_of_minute_2nd_digit = bin(int(minute_2nd_digit))
+
+    binary_of_second_1st_digit = bin(int(second_1st_digit))
+    binary_of_second_2nd_digit = bin(int(second_2nd_digit))
+
+    return binary_of_hour_1st_digit, binary_of_hour_2nd_digit, binary_of_minute_1st_digit, binary_of_minute_2nd_digit, binary_of_second_1st_digit, binary_of_second_2nd_digit
+
+def send_BCD_to_pins(time_in_binary):
+
+    #Convert binary of Hour 1st digit to a nibble
+    binary_of_hour_1st_digit = time_in_binary[0]
+    binary_of_hour_1st_digit = binary_of_hour_1st_digit[2:]
+
+    if len(binary_of_hour_1st_digit) == 1:
+        nibble_of_hour_1st_digit = ("000"+binary_of_hour_1st_digit)
+    elif len(binary_of_hour_1st_digit) == 2:
+         nibble_of_hour_1st_digit = ("00"+binary_of_hour_1st_digit)
+    elif len(binary_of_hour_1st_digit) == 3:
+         nibble_of_hour_1st_digit = ("0"+binary_of_hour_1st_digit)
+    else:
+        nibble_of_hour_1st_digit = binary_of_hour_1st_digit
+    
+    #Send 1st digit in hour to Raspberry Pi pins
+    if nibble_of_hour_1st_digit[0] == str(1):
+        #Nixie_bit_0 = gpiozero.DigitalOutputDevice(17)
+        #Nixie_bit_0.on()
+        print("send 1")
+    else:
+        print("send 0")
+
+    if nibble_of_hour_1st_digit[1] == str(1):
+        print("send 1")
+    else:
+        print("send 0")
+    
+    if nibble_of_hour_1st_digit[2] == str(1):
+        print("send 1")
+    else:
+        print("send 0")
+
+    if nibble_of_hour_1st_digit[3] == str(1):
+        print("send 1")
+    else:
+        print("send 0")
+
+
+main()
