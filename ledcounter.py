@@ -82,7 +82,7 @@ def set_output_to_9():
     GPIO.output(BINARY_INPUT_C, GPIO.LOW)
     GPIO.output(BINARY_INPUT_D, GPIO.HIGH)
 
-def main:
+def main():
     set_outputs_low()
     while True:
         set_output_to_0()
@@ -106,6 +106,5 @@ def main:
         set_output_to_9()
         time.sleep(1)
 
-
-
+main()
 GPIO.cleanup()
