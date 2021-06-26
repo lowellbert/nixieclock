@@ -8,7 +8,7 @@ GPIO.setmode(GPIO.BCM)
 #Set GPIO pin to an output
 GPIO.setup(LED_PIN, GPIO.OUT)
 
-GPIO.output(LED_pin, GPIO.HIGH)
+GPIO.output(LED_PIN, GPIO.HIGH)
 time.sleep(1)
 GPIO.output(LED_PIN, GPIO.LOW)
 
