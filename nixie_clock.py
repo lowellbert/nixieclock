@@ -1,6 +1,7 @@
 #Get time and display time on nixie tube clock
 
 from datetime import datetime
+from time import sleep
 
 import RPi.GPIO as GPIO
 
@@ -71,6 +72,8 @@ def send_BCD_to_pins(time_in_binary):
     #Send 1st digit in hour to Raspberry Pi pins
     nibble_to_pins(nibble_of_hour_1st_digit)
 
+    sleep(1)
+    
     #take second position of time_in_binary which is binary_of_hour_2nd_digit
     nibble_of_hour_2nd_digit = binary_to_nibble(time_in_binary[1])
 
