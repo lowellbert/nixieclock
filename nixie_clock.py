@@ -1,7 +1,22 @@
 #Get time and display time on nixie tube clock
 
 from datetime import datetime
+import time
 import gpiozero
+import RPi.GPIO as GPIO
+
+BINARY_OUTPUT_A = 17
+BINARY_OUTPUT_B = 18
+BINARY_OUTPUT_C = 22
+BINARY_OUTPUT_D = 23
+
+#Set GPIO pins to Broadcom SOC channel naming convention
+GPIO.setmode(GPIO.BCM) 
+#Set GPIO pin to an output
+GPIO.setup(BINARY_OUTPUT_A, GPIO.OUT)
+GPIO.setup(BINARY_OUTPUT_B, GPIO.OUT)
+GPIO.setup(BINARY_OUTPUT_C, GPIO.OUT)
+GPIO.setup(BINARY_OUTPUT_D, GPIO.OUT)
 
 def main():
     time = get_time()
@@ -64,26 +79,34 @@ def send_BCD_to_pins(time_in_binary):
     
     #Send 1st digit in hour to Raspberry Pi pins
     if nibble_of_hour_1st_digit[0] == str(1):
-        #Nixie_bit_0 = gpiozero.DigitalOutputDevice(17)
-        #Nixie_bit_0.on()
         print("send 1")
+        GPIO.output(BINARY_OUTPUT_A, GPIO.HIGH)
+
     else:
         print("send 0")
+        GPIO.output(BINARY_OUTPUT_A, GPIO.LOW)
 
     if nibble_of_hour_1st_digit[1] == str(1):
         print("send 1")
+        GPIO.output(BINARY_OUTPUT_B, GPIO.HIGH)
     else:
         print("send 0")
+        GPIO.output(BINARY_OUTPUT_B, GPIO.LOW)
     
     if nibble_of_hour_1st_digit[2] == str(1):
         print("send 1")
+        GPIO.output(BINARY_OUTPUT_C, GPIO.HIGH)
     else:
         print("send 0")
+        GPIO.output(BINARY_OUTPUT_C, GPIO.LOW)
 
     if nibble_of_hour_1st_digit[3] == str(1):
         print("send 1")
+        GPIO.output(BINARY_OUTPUT_D, GPIO.HIGH)
     else:
         print("send 0")
+        GPIO.output(BINARY_OUTPUT_D, GPIO.LOW)
 
 
 main()
+GPIO.cleanup()
