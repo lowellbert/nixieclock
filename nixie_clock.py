@@ -66,6 +66,7 @@ def convert_time_to_BCD(time):
     return binary_of_hour_1st_digit, binary_of_hour_2nd_digit, binary_of_minute_1st_digit, binary_of_minute_2nd_digit, binary_of_second_1st_digit, binary_of_second_2nd_digit
 
 def send_BCD_to_pins(time_in_binary):
+    
     #take first position of time_in_binary which is binary_of_hour_1st_digit
     nibble_of_hour_1st_digit = binary_to_nibble(time_in_binary[0])
 
@@ -98,9 +99,9 @@ def binary_to_nibble(time_in_binary):
 
     return nibble
 
-def nibble_to_pins(nibble_of_hour_1st_digit):
+def nibble_to_pins(nibble_digit):
      #Send 1st digit in hour to Raspberry Pi pins
-    if nibble_of_hour_1st_digit[0] == str(1):
+    if nibble_digit[0] == str(1):
         #OUTPUT D
         print("send 1")
         GPIO.output(BINARY_OUTPUT_D, GPIO.HIGH)
@@ -108,7 +109,7 @@ def nibble_to_pins(nibble_of_hour_1st_digit):
         print("send 0")
         GPIO.output(BINARY_OUTPUT_D, GPIO.LOW)
 
-    if nibble_of_hour_1st_digit[1] == str(1):
+    if nibble_digit[1] == str(1):
         #OUTPUT C
         print("send 1")
         GPIO.output(BINARY_OUTPUT_C, GPIO.HIGH)
@@ -116,7 +117,7 @@ def nibble_to_pins(nibble_of_hour_1st_digit):
         print("send 0")
         GPIO.output(BINARY_OUTPUT_C, GPIO.LOW)
     
-    if nibble_of_hour_1st_digit[2] == str(1):
+    if nibble_digit[2] == str(1):
         #OUTPUT B
         print("send 1")
         GPIO.output(BINARY_OUTPUT_B, GPIO.HIGH)
@@ -124,7 +125,7 @@ def nibble_to_pins(nibble_of_hour_1st_digit):
         print("send 0")
         GPIO.output(BINARY_OUTPUT_B, GPIO.LOW)
 
-    if nibble_of_hour_1st_digit[3] == str(1):
+    if nibble_digit[3] == str(1):
         #OUTPUT A
         print("send 1")
         GPIO.output(BINARY_OUTPUT_A, GPIO.HIGH)
