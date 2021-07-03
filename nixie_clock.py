@@ -22,6 +22,7 @@ def main():
     time = get_time()
     time_in_binary = convert_time_to_BCD(time)
     send_BCD_to_pins(time_in_binary)
+    time.sleep(5)
 
 def get_time():
     now = datetime.now()
