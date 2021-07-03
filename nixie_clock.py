@@ -85,9 +85,9 @@ def binary_to_nibble(time_in_binary):
     #Add "0" to make it a 4 character nibblle
     if len(time_in_binary) == 1:
         nibble = ("000"+time_in_binary)
-    elif len(binary_of_hour_1st_digit) == 2:
+    elif len(time_in_binary) == 2:
         nibble = ("00"+time_in_binary)
-    elif len(binary_of_hour_1st_digit) == 3:
+    elif len(time_in_binary) == 3:
         nibble = ("0"+time_in_binary)
     else:
         nibble = time_in_binary
