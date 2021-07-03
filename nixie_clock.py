@@ -1,8 +1,7 @@
 #Get time and display time on nixie tube clock
 
 from datetime import datetime
-import time
-import gpiozero
+
 import RPi.GPIO as GPIO
 
 BINARY_OUTPUT_A = 17
@@ -19,10 +18,10 @@ GPIO.setup(BINARY_OUTPUT_C, GPIO.OUT)
 GPIO.setup(BINARY_OUTPUT_D, GPIO.OUT)
 
 def main():
-    time = get_time()
-    time_in_binary = convert_time_to_BCD(time)
-    send_BCD_to_pins(time_in_binary)
-    time.sleep(5)
+    while True:
+        time = get_time()
+        time_in_binary = convert_time_to_BCD(time)
+        send_BCD_to_pins(time_in_binary)
 
 def get_time():
     now = datetime.now()
