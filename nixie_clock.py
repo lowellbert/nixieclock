@@ -65,21 +65,37 @@ def convert_time_to_BCD(time):
     return binary_of_hour_1st_digit, binary_of_hour_2nd_digit, binary_of_minute_1st_digit, binary_of_minute_2nd_digit, binary_of_second_1st_digit, binary_of_second_2nd_digit
 
 def send_BCD_to_pins(time_in_binary):
+    #take first position of time_in_binary which is binary_of_hour_1st_digit
+    nibble_of_hour_1st_digit = binary_to_nibble(time_in_binary[0])
 
-    #Convert binary of Hour 1st digit to a nibble
-    binary_of_hour_1st_digit = time_in_binary[0]
-    binary_of_hour_1st_digit = binary_of_hour_1st_digit[2:]
-
-    if len(binary_of_hour_1st_digit) == 1:
-        nibble_of_hour_1st_digit = ("000"+binary_of_hour_1st_digit)
-    elif len(binary_of_hour_1st_digit) == 2:
-         nibble_of_hour_1st_digit = ("00"+binary_of_hour_1st_digit)
-    elif len(binary_of_hour_1st_digit) == 3:
-         nibble_of_hour_1st_digit = ("0"+binary_of_hour_1st_digit)
-    else:
-        nibble_of_hour_1st_digit = binary_of_hour_1st_digit
-    
     #Send 1st digit in hour to Raspberry Pi pins
+    nibble_to_pins(nibble_of_hour_1st_digit)
+
+    #take second position of time_in_binary which is binary_of_hour_2nd_digit
+    nibble_of_hour_2nd_digit = binary_to_nibble(time_in_binary[1])
+
+    #Send 1st digit in hour to Raspberry Pi pins
+    nibble_to_pins(nibble_of_hour_2nd_digit)
+    
+
+def binary_to_nibble(time_in_binary):
+    #remove 0b in binary number system
+    time_in_binary = time_in_binary[2:]
+
+    #Add "0" to make it a 4 character nibblle
+    if len(time_in_binary) == 1:
+        nibble = ("000"+time_in_binary)
+    elif len(binary_of_hour_1st_digit) == 2:
+        nibble = ("00"+time_in_binary)
+    elif len(binary_of_hour_1st_digit) == 3:
+        nibble = ("0"+time_in_binary)
+    else:
+        nibble = time_in_binary
+
+    return nibble
+
+def nibble_to_pins(nibble_of_hour_1st_digit):
+     #Send 1st digit in hour to Raspberry Pi pins
     if nibble_of_hour_1st_digit[0] == str(1):
         #OUTPUT D
         print("send 1")
@@ -111,6 +127,8 @@ def send_BCD_to_pins(time_in_binary):
     else:
         print("send 0")
         GPIO.output(BINARY_OUTPUT_A, GPIO.LOW)
+
+
 
 
 main()
